@@ -25,6 +25,29 @@ namespace Onebrb.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: true),
+                    Body = table.Column<string>(nullable: true),
+                    DateSent = table.Column<DateTime>(nullable: false),
+                    AuthorId = table.Column<int>(nullable: false),
+                    AuthorUserName = table.Column<string>(nullable: true),
+                    RecipientId = table.Column<int>(nullable: false),
+                    RecipientUserName = table.Column<string>(nullable: true),
+                    IsDeletedForAuthor = table.Column<bool>(nullable: false),
+                    IsArchivedForAuthor = table.Column<bool>(nullable: false),
+                    IsDeletedForRecipient = table.Column<bool>(nullable: false),
+                    IsArchivedForRecipient = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PersistedGrants",
                 columns: table => new
                 {
@@ -75,7 +98,11 @@ namespace Onebrb.Server.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Profession = table.Column<string>(nullable: true),
+                    About = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -99,6 +126,30 @@ namespace Onebrb.Server.Migrations
                         name: "FK_AspNetRoleClaims_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApplicationUserMessages",
+                columns: table => new
+                {
+                    MessageId = table.Column<int>(nullable: false),
+                    ApplicationUserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplicationUserMessages", x => new { x.MessageId, x.ApplicationUserId });
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserMessages_Users_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserMessages_Messages_MessageId",
+                        column: x => x.MessageId,
+                        principalTable: "Messages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -189,6 +240,11 @@ namespace Onebrb.Server.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ApplicationUserMessages_ApplicationUserId",
+                table: "ApplicationUserMessages",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -252,6 +308,9 @@ namespace Onebrb.Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ApplicationUserMessages");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -271,6 +330,9 @@ namespace Onebrb.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "Roles");

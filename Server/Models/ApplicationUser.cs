@@ -13,5 +13,6 @@ namespace Onebrb.Server.Models
         public string LastName { get; set; }
         public string Profession { get; set; }
         public string About { get; set; }
+        public List<ApplicationUserMessage> ApplicationUserMessage { get; set; }
     }
 }

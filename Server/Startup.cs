@@ -36,8 +36,9 @@ namespace Onebrb.Server
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<ApplicationRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddDefaultTokenProviders()
+                .AddDefaultUI()
                 .AddUserManager<ApplicationUserManager>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -54,6 +55,7 @@ namespace Onebrb.Server
 
             // Services
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

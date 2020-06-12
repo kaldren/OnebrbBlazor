@@ -12,5 +12,6 @@ namespace Onebrb.Server.Interfaces
     public interface IRepository<TEntity> where TEntity : class, IEntity
     {
         Task<TEntity> Get(int id);
+        Task<IEnumerable<TEntity>> GetAll(int id);
     }
 }

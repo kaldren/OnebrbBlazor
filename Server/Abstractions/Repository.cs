@@ -21,5 +21,17 @@ namespace Onebrb.Server.Abstractions
         {
             return await _db.Set<TModel>().FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<IEnumerable<TModel>> GetAll(int id)
+        {
+            var result = await _db.Set<TModel>().Where(x => x.Id == id).ToListAsync();
+
+            if (result == null)
+            {
+                return Enumerable.Empty<TModel>();
+            }
+
+            return result;
+        }
     }
 }

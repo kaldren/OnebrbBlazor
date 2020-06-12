@@ -314,6 +314,66 @@ namespace Onebrb.Server.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Onebrb.Server.Models.ApplicationUserMessage", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MessageId", "ApplicationUserId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("ApplicationUserMessages");
+                });
+
+            modelBuilder.Entity("Onebrb.Server.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AuthorUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateSent")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsArchivedForAuthor")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsArchivedForRecipient")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeletedForAuthor")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeletedForRecipient")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("RecipientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RecipientUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Onebrb.Server.Models.ApplicationRole", null)
@@ -361,6 +421,21 @@ namespace Onebrb.Server.Migrations
                     b.HasOne("Onebrb.Server.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Onebrb.Server.Models.ApplicationUserMessage", b =>
+                {
+                    b.HasOne("Onebrb.Server.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("ApplicationUserMessage")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Onebrb.Server.Models.Message", "Message")
+                        .WithMany("ApplicationUserMessage")
+                        .HasForeignKey("MessageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

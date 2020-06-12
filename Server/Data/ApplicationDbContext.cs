@@ -24,6 +24,11 @@ namespace Onebrb.Server.Data
 
             modelBuilder.Entity<ApplicationUser>(entity => { entity.ToTable(name: "Users"); });
             modelBuilder.Entity<ApplicationRole>(entity => { entity.ToTable(name: "Roles"); });
+
+            modelBuilder.Entity<ApplicationUserMessage>()
+                .HasKey(cs => new { cs.MessageId, cs.ApplicationUserId });
         }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<ApplicationUserMessage> ApplicationUserMessages { get; set; }
     }
 }
