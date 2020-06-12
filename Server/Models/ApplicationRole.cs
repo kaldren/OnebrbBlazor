@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Onebrb.Server.Models
 {
-    public class ApplicationUser : IdentityUser<int>
+    public class ApplicationRole : IdentityRole<int>
     {
     }
 }

@@ -10,12 +10,20 @@ using System.Threading.Tasks;
 
 namespace Onebrb.Server.Data
 {
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
+    public class ApplicationDbContext : KeyApiAuthorizationDbContext<ApplicationUser, ApplicationRole, int>
     {
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ApplicationUser>(entity => { entity.ToTable(name: "Users"); });
+            modelBuilder.Entity<ApplicationRole>(entity => { entity.ToTable(name: "Roles"); });
         }
     }
 }
