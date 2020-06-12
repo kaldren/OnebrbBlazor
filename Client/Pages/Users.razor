@@ -14,6 +14,11 @@
 
 <Notification CssClass="@CssClass" Message="@StatusMessage" />
 
+@if (Model == null)
+{
+    return;
+}
+
 <div class="profile-options">
     <button class="btn btn-primary" title="View profile"
             @onclick="@(e => OnProfileOptionsButtonClick("profile"))">
@@ -25,13 +30,15 @@
     </button>
 </div>
 
-@if (Model != null && (RazorComponent == RazorComponents.UserProfile))
+@if (RazorComponent == RazorComponents.UserProfile)
 {
     <UserProfile Model="@Model" />
+    return;
 }
-else if (Model != null && RazorComponent == RazorComponents.MessageForm)
+@if (RazorComponent == RazorComponents.MessageForm)
 {
     <MessageForm Recipient="@Model.UserName"></MessageForm>
+    return;
 }
 
 @code {
@@ -47,14 +54,13 @@ else if (Model != null && RazorComponent == RazorComponents.MessageForm)
     {
         UsersSettings = Configuration.GetSection(nameof(ApiSettings)).Get<ApiSettings>().UsersSettings;
 
-        Model = await Http.GetFromJsonAsync<UserDto>($"{UsersSettings.GetUserApiEndpoint}/{UserName}");
-
-        if (Model != null)
+        try
         {
+            Model = await Http.GetFromJsonAsync<UserDto>($"{UsersSettings.GetUserApiEndpoint}/{UserName}");
             CssClass = "hidden";
             RazorComponent = RazorComponents.UserProfile;
         }
-        else
+        catch (Exception)
         {
             CssClass = "alert alert-danger";
             StatusMessage = "This username doesn't exist.";

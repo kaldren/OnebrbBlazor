@@ -26,10 +26,25 @@ namespace Onebrb.Server.Api
             _mapper = mapper;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
             var user = await _userRepository.Get(id);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var dto = _mapper.Map<UserDto>(user);
+
+            return Ok(dto);
+        }
+
+        [HttpGet("{username}")]
+        public async Task<ActionResult<UserDto>> GetUserByUserName(string username)
+        {
+            var user = await _userRepository.GetUserByUserName(username);
 
             if (user == null)
             {
