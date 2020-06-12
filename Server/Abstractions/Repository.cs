@@ -17,12 +17,12 @@ namespace Onebrb.Server.Abstractions
             _db = db;
         }
 
-        public async Task<TModel> Get(int id)
+        public async Task<TModel> GetAsync(int id)
         {
             return await _db.Set<TModel>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<TModel>> GetAll(int id)
+        public async Task<IEnumerable<TModel>> GetAllAsync(int id)
         {
             var result = await _db.Set<TModel>().Where(x => x.Id == id).ToListAsync();
 

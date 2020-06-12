@@ -29,7 +29,7 @@ namespace Onebrb.Server.Api
         [HttpGet("{id:int}")]
         public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
-            var user = await _userRepository.Get(id);
+            var user = await _userRepository.GetAsync(id);
 
             if (user == null)
             {

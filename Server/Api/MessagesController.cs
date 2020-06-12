@@ -89,7 +89,7 @@ namespace Onebrb.Server.Api
             }
             else 
             {
-                var result = await _messageRepository.GetAll(currentUser.Id);
+                var result = await _messageRepository.GetAllAsync(currentUser.Id);
                 messages = result.ToList();
             }
 
