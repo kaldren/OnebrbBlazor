@@ -8,9 +8,9 @@ namespace Onebrb.Server.Interfaces
     /// <summary>
     /// Basic repository interface
     /// </summary>
-    /// <typeparam name="TModel"></typeparam>
-    public interface IRepository<TModel> where TModel : class, IEntity
+    /// <typeparam name="TEntity"></typeparam>
+    public interface IRepository<TEntity> where TEntity : class, IEntity
     {
-        Task<TModel> Get(int id);
+        Task<TEntity> Get(int id);
     }
 }

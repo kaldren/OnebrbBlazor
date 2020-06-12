@@ -8,6 +8,5 @@ namespace Onebrb.Server.Interfaces
 {
     public interface IUserRepository : IRepository<ApplicationUser>
     {
-        Task<ApplicationUser> GetUserByUsername(string username);
     }
 }

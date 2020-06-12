@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using System.Linq;
 using Onebrb.Server.Data;
 using Onebrb.Server.Models;
+using Onebrb.Server.Repos;
+using Onebrb.Server.Interfaces;
 
 namespace Onebrb.Server
 {
@@ -45,6 +47,9 @@ namespace Onebrb.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // Services
+            services.AddTransient<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
