@@ -13,6 +13,7 @@ namespace Onebrb.Server.Settings
         public MappingProfile()
         {
             CreateMap<ApplicationUser, UserDto>()
+                .ForMember(x => x.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
                 .ReverseMap();
         }
     }
