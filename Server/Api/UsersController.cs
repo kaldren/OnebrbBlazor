@@ -18,16 +18,27 @@ namespace Onebrb.Server.Api
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
-            return await _userRepository.GetUserById(id);
+            var user = await _userRepository.Get(id);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var dto = _mapper.Map<UserDto>(user);
+
+            return Ok(dto);
         }
     }
 }
