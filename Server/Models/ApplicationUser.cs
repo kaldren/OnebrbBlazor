@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Onebrb.Server.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Onebrb.Server.Models
 {
-    public class ApplicationUser : IdentityUser<int>
+    public class ApplicationUser : IdentityUser<int>, IEntity
     {
     }
 }

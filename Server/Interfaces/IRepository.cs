@@ -11,6 +11,6 @@ namespace Onebrb.Server.Interfaces
     /// <typeparam name="TModel"></typeparam>
     public interface IRepository<TModel> where TModel : class, IEntity
     {
-        Task Get(int id);
+        Task<TModel> Get(int id);
     }
 }
