@@ -22,14 +22,14 @@ namespace Onebrb.Server.Repos
             _db = db; _mapper = mapper;
         }
 
-        public async Task<UserDto> GetUserByUserName(string username)
+        public async Task<UserDto> GetUserByUserNameAsync(string username)
         {
             var user =  await _db.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
             return _mapper.Map<UserDto>(user);
         }
 
-        public async Task<UserDto> GetUserById(int id)
+        public async Task<UserDto> GetUserByIdAsync(int id)
         {
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
 

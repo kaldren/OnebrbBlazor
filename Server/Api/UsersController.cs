@@ -44,7 +44,7 @@ namespace Onebrb.Server.Api
         [HttpGet("{username}")]
         public async Task<ActionResult<UserDto>> GetUserByUserName(string username)
         {
-            var user = await _userRepository.GetUserByUserName(username);
+            var user = await _userRepository.GetUserByUserNameAsync(username);
 
             if (user == null)
             {

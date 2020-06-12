@@ -9,7 +9,7 @@ namespace Onebrb.Server.Interfaces
 {
     public interface IUserRepository : IRepository<ApplicationUser>
     {
-        Task<UserDto> GetUserByUserName(string username);
-        Task<UserDto> GetUserById(int id);
+        Task<UserDto> GetUserByUserNameAsync(string username);
+        Task<UserDto> GetUserByIdAsync(int id);
     }
 }

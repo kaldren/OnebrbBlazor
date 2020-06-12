@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Onebrb.Server.Data;
 using Onebrb.Server.Interfaces;
 using Onebrb.Server.Models;
 using Onebrb.Shared.Dtos.Messages;
@@ -18,13 +20,21 @@ namespace Onebrb.Server.Api
     [Route("api/[controller]")]
     public class MessagesController : ControllerBase
     {
-        private readonly IMessageRepository _repo;
+        private readonly IMessageRepository _messageRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public MessagesController(IMessageRepository repo, IMapper mapper, UserManager<ApplicationUser> userManager)
+        public MessagesController(
+            ApplicationDbContext dbContext,
+            IMessageRepository messageRepository,
+            IUserRepository userRepository,
+            IMapper mapper, UserManager<ApplicationUser> userManager)
         {
-            _repo = repo;
+            _dbContext = dbContext;
+            _messageRepository = messageRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
             _userManager = userManager;
         }
@@ -45,7 +55,7 @@ namespace Onebrb.Server.Api
                 switch (show)
                 {
                     case "sent":
-                        var result = await _repo.GetAllSentMessages(currentUser.Id);
+                        var result = await _messageRepository.GetAllSentMessages(currentUser.Id);
                         messages = result.ToList();
                         break;
                     //case "received":
@@ -79,13 +89,42 @@ namespace Onebrb.Server.Api
             }
             else 
             {
-                var result = await _repo.GetAll(currentUser.Id);
+                var result = await _messageRepository.GetAll(currentUser.Id);
                 messages = result.ToList();
             }
 
             var viewModel = _mapper.Map<List<MessageDto>>(messages);
 
             return Ok(viewModel);
+        }
+
+        /// <summary>
+        /// Creates a new message
+        /// </summary>
+        /// <param name="model">CreateMessageViewModel</param>
+        /// <returns>Message</returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromBody] MessageDto model)
+        {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var recipient = await _userRepository.GetUserByUserNameAsync(model.RecipientUserName);
+
+            if (recipient == null)
+            {
+                return BadRequest(new { Message = $"Recipient {model.RecipientUserName} not found." });
+            }
+
+            model.RecipientId = recipient.Id;
+            model.AuthorId = currentUser.Id;
+
+            var message = _mapper.Map<Message>(model);
+
+            await _dbContext.Messages.AddAsync(message);
+            await _dbContext.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(Get), new { id = message.Id }, model);
         }
     }
 }
