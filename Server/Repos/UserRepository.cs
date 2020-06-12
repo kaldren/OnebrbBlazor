@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Onebrb.Server.Abstractions;
 using Onebrb.Server.Data;
 using Onebrb.Server.Interfaces;
 using Onebrb.Server.Models;
+using Onebrb.Shared.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +15,25 @@ namespace Onebrb.Server.Repos
     public class UserRepository : Repository<ApplicationUser>, IUserRepository
     {
         private readonly ApplicationDbContext _db;
-        public UserRepository(ApplicationDbContext db) : base(db) { _db = db; }
+        private readonly IMapper _mapper;
 
-        public async Task<ApplicationUser> GetUserByUsername(string username)
+        public UserRepository(ApplicationDbContext db, IMapper mapper) : base(db)
         {
-            return await _db.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            _db = db; _mapper = mapper;
+        }
+
+        public async Task<UserDto> GetUserByUsername(string username)
+        {
+            var user =  await _db.Users.FirstOrDefaultAsync(x => x.UserName == username);
+
+            return _mapper.Map<UserDto>(user);
+        }
+
+        public async Task<UserDto> GetUserById(int id)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            return _mapper.Map<UserDto>(user);
         }
     }
 }

@@ -15,6 +15,7 @@ using Onebrb.Server.Data;
 using Onebrb.Server.Models;
 using Onebrb.Server.Repos;
 using Onebrb.Server.Interfaces;
+using AutoMapper;
 
 namespace Onebrb.Server
 {
@@ -47,6 +48,8 @@ namespace Onebrb.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddAutoMapper(typeof(Startup));
 
             // Services
             services.AddTransient<IUserRepository, UserRepository>();

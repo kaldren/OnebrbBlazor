@@ -8,19 +8,26 @@ using Onebrb.Server.Abstractions;
 using Onebrb.Server.Interfaces;
 using Onebrb.Server.Models;
 using Onebrb.Server.Repos;
+using Onebrb.Shared.Dtos;
 
 namespace Onebrb.Server.Api
 {
     [ApiController]
     //[Authorize]
     [Route("api/[controller]")]
-    public class UsersController : BaseController<ApplicationUser, IUserRepository>
+    public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
 
-        public UsersController(IUserRepository userRepository) : base(userRepository)
+        public UsersController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserDto>> GetUserById(int id)
+        {
+            return await _userRepository.GetUserById(id);
         }
     }
 }
