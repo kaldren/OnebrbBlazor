@@ -8,7 +8,7 @@ using Onebrb.Server.Abstractions;
 using Onebrb.Server.Interfaces;
 using Onebrb.Server.Models;
 using Onebrb.Server.Repos;
-using Onebrb.Shared.Dtos;
+using Onebrb.Shared.Dtos.Users;
 
 namespace Onebrb.Server.Api
 {

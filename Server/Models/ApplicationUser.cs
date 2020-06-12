@@ -11,6 +11,7 @@ namespace Onebrb.Server.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Profession { get; set; }
         public string About { get; set; }
     }
 }

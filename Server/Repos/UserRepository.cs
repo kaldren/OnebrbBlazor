@@ -4,7 +4,7 @@ using Onebrb.Server.Abstractions;
 using Onebrb.Server.Data;
 using Onebrb.Server.Interfaces;
 using Onebrb.Server.Models;
-using Onebrb.Shared.Dtos;
+using Onebrb.Shared.Dtos.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
