@@ -54,8 +54,8 @@ namespace Onebrb.Server
             services.AddAutoMapper(typeof(Startup));
 
             // Services
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IMessageRepository, MessageRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
