@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onebrb.Server", "Server\Onebrb.Server.csproj", "{D45536D9-3424-4743-B5DB-3FDB28209C66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onebrb.Server", "Server\Onebrb.Server.csproj", "{D45536D9-3424-4743-B5DB-3FDB28209C66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onebrb.Client", "Client\Onebrb.Client.csproj", "{EC2899F1-46BC-46B0-AB57-651C13B2972A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onebrb.Client", "Client\Onebrb.Client.csproj", "{EC2899F1-46BC-46B0-AB57-651C13B2972A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onebrb.Shared", "Shared\Onebrb.Shared.csproj", "{AE2FD156-03ED-4E19-B612-D18BE9F50E35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onebrb.Shared", "Shared\Onebrb.Shared.csproj", "{AE2FD156-03ED-4E19-B612-D18BE9F50E35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{928E3658-E40B-4B34-A031-068A895F2E36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +32,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D45536D9-3424-4743-B5DB-3FDB28209C66} = {928E3658-E40B-4B34-A031-068A895F2E36}
+		{EC2899F1-46BC-46B0-AB57-651C13B2972A} = {928E3658-E40B-4B34-A031-068A895F2E36}
+		{AE2FD156-03ED-4E19-B612-D18BE9F50E35} = {928E3658-E40B-4B34-A031-068A895F2E36}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {228FE397-6F34-4C38-A51A-E0E8AB3792CD}
